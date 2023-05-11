@@ -1,0 +1,28 @@
+version: "3.4"
+services:
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    ports:
+      - '6379:6379'
+  
+  redisinsight:
+    container_name: redisinsight
+    image: redislabs/redisinsight:latest
+    ports:
+      - '8001:8001'
+    volumes:
+      - redisinsight_data:/data/db
+      
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+    - REDIS_HOSTS=local:redis:6379
+    ports:
+    - '8081:8081'
+volumes:
+  redisinsight_data:
